@@ -7,13 +7,15 @@ import { Page } from './interface/page';
 import { HttpErrorResponse } from '@angular/common/http';
 import { response } from 'express';
 import { error } from 'console';
+import { CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, CommonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+
 })
 export class AppComponent implements OnInit {
   usersState$: Observable<{appState: string, appData?: ApiResponse<Page>, error?: HttpErrorResponse}>;
