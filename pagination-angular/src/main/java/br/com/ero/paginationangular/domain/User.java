@@ -28,5 +28,5 @@ public class User {
     private String status;
     private String address;
     private String phone;
-    private String imgUrl;
+    private String imageUrl;
 }
