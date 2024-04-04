@@ -1,7 +1,7 @@
 import { UserService } from './service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Observable, catchError, map, of, startWith } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of, startWith } from 'rxjs';
 import { ApiResponse } from './interface/api-response';
 import { Page } from './interface/page';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -19,6 +19,7 @@ import { CommonModule} from '@angular/common';
 })
 export class AppComponent implements OnInit {
   usersState$: Observable<{appState: string, appData?: ApiResponse<Page>, error?: HttpErrorResponse}>;
+  responseSubject = new BehaviorSubject<ApiResponse<Page>>(null);
 
   constructor (
     private UserService: UserService
@@ -27,11 +28,26 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.usersState$ = this.UserService.users$().pipe(
       map((response: ApiResponse<Page>) => {
+        this.responseSubject.next(response);
         console.log(response);
         return ({ appState: 'APP_LOADED', appData: response})
       }
     ),
     startWith({ appState: 'APP_LOADING'}),
     catchError((error: HttpErrorResponse) => of({ appState: 'APP_ERROR', error}))
-    )}
+    )
+  }
+
+  goToPage(name?: string, pageNumber?: number ): void {
+    this.usersState$ = this.UserService.users$(name, pageNumber).pipe(
+      map((response: ApiResponse<Page>) => {
+        this.responseSubject.next(response);
+        console.log(response);
+        return ({ appState: 'APP_LOADED', appData: response})
+      }
+    ),
+    startWith({ appState: 'APP_LOADED', appData: this.responseSubject.value}),
+    catchError((error: HttpErrorResponse) => of({ appState: 'APP_ERROR', error}))
+    )
+  }
 }
