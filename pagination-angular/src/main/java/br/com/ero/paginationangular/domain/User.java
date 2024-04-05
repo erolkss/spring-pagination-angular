@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serializable;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +20,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

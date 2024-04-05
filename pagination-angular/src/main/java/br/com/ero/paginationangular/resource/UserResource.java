@@ -4,6 +4,7 @@ package br.com.ero.paginationangular.resource;
 import br.com.ero.paginationangular.domain.HttpResponse;
 import br.com.ero.paginationangular.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ public class UserResource {
     private final UserService userService;
 
 
+    @Cacheable("users")
     @GetMapping("/users")
     public ResponseEntity<HttpResponse> getUsers(@RequestParam Optional<String> name,
                                                  @RequestParam Optional<Integer> page,
