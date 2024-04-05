@@ -7,6 +7,8 @@ UPDATE user SET status = 'BANNED' WHERE (id % 2 = 0);
 UPDATE user SET status = 'BANNED' WHERE (id > 40 AND id < 28);
 UPDATE user SET status = 'ACTIVE' WHERE (status != 'BANNED');
 UPDATE user SET status = 'INACTIVE' WHERE (id % 3 = 0);
+UPDATE user SET status = 'PENDING' WHERE (id % 5 = 0);
+
 
 
 --- Delete if have more them 100 registers
