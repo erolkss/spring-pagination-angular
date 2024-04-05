@@ -16,7 +16,7 @@ export class UserService {
 
   // Make call to the back end API to retrieve page of users
   users$ = (name: string = '', page: number = 0, size: number = 10): Observable<ApiResponse<Page>> =>
-      this.http.get<any>(`${this.serverUrl}/api/pagination/users?=${name}&page=${page}&size=${size}`);
+      this.http.get<any>(`${this.serverUrl}/api/pagination/users?name=${name}&page=${page}&size=${size}`);
 
 
 
