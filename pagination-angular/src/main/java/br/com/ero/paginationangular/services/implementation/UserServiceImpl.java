@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
+    @Cacheable("users")
     public Page<User> getUsers(String name, int page, int size) {
         log.info("Fetching users for page {} of size {}", page, size);
         return userRepository.findByNameContaining(name, PageRequest.of(page, size));

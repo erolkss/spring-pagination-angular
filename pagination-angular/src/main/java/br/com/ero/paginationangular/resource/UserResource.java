@@ -26,7 +26,6 @@ public class UserResource {
     private final UserService userService;
 
 
-    @Cacheable("users")
     @GetMapping("/users")
     public ResponseEntity<HttpResponse> getUsers(@RequestParam Optional<String> name,
                                                  @RequestParam Optional<Integer> page,
