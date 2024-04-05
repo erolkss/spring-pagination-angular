@@ -96,17 +96,17 @@
             </tbody>
           </table>
           <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-end">
+            <ul class="pagination justify-content-end" style="cursor: pointer;">
               <li class="page-item">
-                <a class="page-link" aria-label="Previous">
+                <a (click)="goToNextOrPreviousPage('backword', '')" class="page-link" aria-label="Previous">
                   <span aria-hidden="true">&laquo; Previous</span>
                 </a>
               </li>
               <li *ngFor="let pageNumber of [].constructor(state.appData.data.page.totalPages);  let i = index;" class="page-item">
-                <a (click)="goToPage('', i)" class="page-link" style="cursor: pointer;">
+                <a (click)="goToPage('', i)" class="page-link">
                   {{ i + 1}}
                 </a></li>
-              <li class="page-item">
+              <li (click)="goToNextOrPreviousPage('forward', '')" class="page-item">
                 <a class="page-link" aria-label="Next">
                   <span aria-hidden="true">Next &raquo;</span>
                 </a>

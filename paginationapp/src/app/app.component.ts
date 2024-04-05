@@ -20,6 +20,8 @@ import { CommonModule} from '@angular/common';
 export class AppComponent implements OnInit {
   usersState$: Observable<{appState: string, appData?: ApiResponse<Page>, error?: HttpErrorResponse}>;
   responseSubject = new BehaviorSubject<ApiResponse<Page>>(null);
+  private currentPageSubject = new BehaviorSubject<number>(0);
+  currentPage$ = this.currentPageSubject.asObservable();
 
   constructor (
     private UserService: UserService
@@ -29,6 +31,7 @@ export class AppComponent implements OnInit {
     this.usersState$ = this.UserService.users$().pipe(
       map((response: ApiResponse<Page>) => {
         this.responseSubject.next(response);
+        this.currentPageSubject.next(response.data.page.number);
         console.log(response);
         return ({ appState: 'APP_LOADED', appData: response})
       }
@@ -42,6 +45,7 @@ export class AppComponent implements OnInit {
     this.usersState$ = this.UserService.users$(name, pageNumber).pipe(
       map((response: ApiResponse<Page>) => {
         this.responseSubject.next(response);
+        this.currentPageSubject.next(pageNumber);
         console.log(response);
         return ({ appState: 'APP_LOADED', appData: response})
       }
@@ -49,5 +53,9 @@ export class AppComponent implements OnInit {
     startWith({ appState: 'APP_LOADED', appData: this.responseSubject.value}),
     catchError((error: HttpErrorResponse) => of({ appState: 'APP_ERROR', error}))
     )
+  }
+
+  goToNextOrPreviousPage(direction?: string, name?: string): void{
+    this.goToPage(name, direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1);
   }
 }
