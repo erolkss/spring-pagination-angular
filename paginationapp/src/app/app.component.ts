@@ -8,11 +8,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { response } from 'express';
 import { error } from 'console';
 import { CommonModule} from '@angular/common';
+import { FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 
@@ -41,7 +42,7 @@ export class AppComponent implements OnInit {
     )
   }
 
-  goToPage(name?: string, pageNumber?: number ): void {
+  goToPage(name?: string, pageNumber: number = 0): void {
     this.usersState$ = this.UserService.users$(name, pageNumber).pipe(
       map((response: ApiResponse<Page>) => {
         this.responseSubject.next(response);
